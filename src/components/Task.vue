@@ -1,5 +1,8 @@
 <template>
-  <div :class="[task.reminder ? 'reminder' : '', 'task']">
+  <div
+    @dblclick="$emit('toggle-reminder', task.id)"
+    :class="[task.reminder ? 'reminder' : '', 'task']"
+  >
     <h3>
       {{ task.text }}
       <i @click="onDelete(task.id)" class="fas fa-times"></i>
@@ -26,7 +29,7 @@ export type IReminder = {
   },
   methods: {
     onDelete(id: number) {
-      this.$emit('delete-task', id);
+      this.$emit("delete-task", id);
     }
   }
 })
@@ -45,12 +48,12 @@ export default class Task extends Vue {}
     align-items: center;
     justify-content: space-between;
 
-    i{
+    i {
       cursor: pointer;
 
       &.fas {
-      color: red;
-    }
+        color: red;
+      }
     }
   }
 
@@ -58,6 +61,4 @@ export default class Task extends Vue {}
     border-left: 5px solid green;
   }
 }
-
-
 </style>

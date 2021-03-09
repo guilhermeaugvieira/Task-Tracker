@@ -1,7 +1,14 @@
 <template>
   <div class="container">
     <Header />
-    <Task @delete-task="deleteTask" v-for="task in tasks" :key="task.id" :task="task" />
+    <AddTask />
+    <Task
+      @delete-task="deleteTask"
+      @toggle-reminder="toggleReminder"
+      v-for="task in tasks"
+      :key="task.id"
+      :task="task"
+    />
   </div>
 </template>
 
@@ -9,11 +16,13 @@
 import { Options, Vue } from "vue-class-component";
 import Header from "./components/Header.vue";
 import Task, { IReminder } from "./components/Task.vue";
+import AddTask from "./components/AddTask.vue";
 
 @Options({
   components: {
     Header,
-    Task
+    Task,
+    AddTask
   },
   data() {
     return {
@@ -43,8 +52,13 @@ import Task, { IReminder } from "./components/Task.vue";
     ];
   },
   methods: {
-    deleteTask(id: number){
-      this.tasks = this.tasks.filter((task: IReminder)=> task.id !==  id);
+    deleteTask(id: number) {
+      this.tasks = this.tasks.filter((task: IReminder) => task.id !== id);
+    },
+    toggleReminder(id: number) {
+      this.tasks = this.tasks.map((task: IReminder) =>
+        task.id === id ? { ...task, reminder: !task.reminder } : task
+      );
     }
   }
 })
