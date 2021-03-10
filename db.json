@@ -1,3 +1,16 @@
 {
-  "tasks": []
+  "tasks": [
+    {
+      "text": "Guilherme",
+      "day": "Dino",
+      "reminder": true,
+      "id": 1
+    },
+    {
+      "text": "Cristian",
+      "day": "Dino",
+      "reminder": true,
+      "id": 2
+    }
+  ]
 }

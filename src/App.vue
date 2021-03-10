@@ -1,130 +1,32 @@
 <template>
   <div class="container">
     <Header @toggle-add-task="toggleAddTask" :showAddTask="showAddTask" />
-    <div v-if="showAddTask">
-      <AddTask @add-task="addTask" />
-    </div>
-    <Task
-      @delete-task="deleteTask"
-      @toggle-reminder="toggleReminder"
-      v-for="task in tasks"
-      :key="task.id"
-      :task="task"
-    />
+    <router-view :showAddTask="showAddTask" ></router-view>
+    <Footer />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import Header from "./components/Header.vue";
-import Task, { IReminder } from "./components/Task.vue";
-import AddTask from "./components/AddTask.vue";
+import Footer from "./components/Footer.vue";
 
 @Options({
   components: {
     Header,
-    Task,
-    AddTask
+    Footer
   },
   data() {
     return {
-      tasks: Object as () => IReminder[],
       showAddTask: Boolean
     };
   },
   created() {
-    this.fetchTasks().then((data: IReminder[])=> {
-      this.tasks = data;
-    }).catch((erroApi: Error)=> {
-      console.log(erroApi)
-    });
     this.showAddTask = false;
   },
   methods: {
-    async deleteTask(id: number) {
-      try {
-        const res = await fetch(`api/tasks/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-type': 'application/json',
-          },
-        });
-
-        this.tasks = this.tasks.filter((task: IReminder) => task.id !== id);
-
-      } catch (errorApi) {
-        console.log(errorApi);    
-      }  
-    },
-
-    async toggleReminder(task : IReminder) {
-      task.reminder = !task.reminder;
-
-      try{
-
-        const res = await fetch(`api/tasks/${task.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(task)
-        });
-
-        try {
-          const data = await res.json();
-
-          this.tasks = this.tasks.map((task: IReminder) =>
-            task.id === task.id ? data : task
-          );
-        } catch (errorJson) {
-          console.log(errorJson);
-        }
-      }catch(errorApi){
-        console.log(errorApi);
-      }
-    },
-
-    async addTask(task: IReminder) {
-      try {
-        const res = await fetch('api/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(task),
-        
-        });
-
-        try {
-          const data = await res.json();
-
-          this.tasks.push(data);
-
-        } catch (errorJson) {
-          console.log(errorJson)
-        }
-
-      } catch (errorApi) {
-        console.log(errorApi);
-      }
-    },
-
     toggleAddTask() {
       this.showAddTask = !this.showAddTask;
-    },
-
-    async fetchTasks() {
-      const res = await fetch('api/tasks');
-      const data = await res.json();
-
-      return data;
-    },
-
-    async fetchTask(id: number) {
-      const res = await fetch(`api/tasks/${id}`);
-      const data = await res.json();
-
-      return data;
     }
   }
 })

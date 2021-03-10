@@ -3,7 +3,7 @@
     <h1>
       {{ title }}
     </h1>
-    <Button @btn-click="$emit('toggle-add-task')" :text="showAddTask ? 'Close' : 'Add Task'"  :color="showAddTask ? 'red' : 'green'" />
+    <Button v-show="homePage" @btn-click="$emit('toggle-add-task')" :text="showAddTask ? 'Close' : 'Add Task'"  :color="showAddTask ? 'red' : 'green'" />
   </header>
 </template>
 
@@ -22,6 +22,15 @@ import Button from "./Button.vue";
     },
     showAddTask: {
       type: Boolean,
+    }
+  },
+  computed: {
+    homePage() {
+      if( this.$route.path === "/") {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 })
