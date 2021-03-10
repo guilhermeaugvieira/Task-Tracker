@@ -3,7 +3,12 @@
     <h1>
       {{ title }}
     </h1>
-    <Button v-show="homePage" @btn-click="$emit('toggle-add-task')" :text="showAddTask ? 'Close' : 'Add Task'"  :color="showAddTask ? 'red' : 'green'" />
+    <Button
+      v-show="homePage"
+      @btn-click="$emit('toggle-add-task')"
+      :text="showAddTask ? 'Close' : 'Add Task'"
+      :color="showAddTask ? 'red' : 'green'"
+    />
   </header>
 </template>
 
@@ -21,12 +26,12 @@ import Button from "./Button.vue";
       default: "Task Tracker"
     },
     showAddTask: {
-      type: Boolean,
+      type: Boolean
     }
   },
   computed: {
     homePage() {
-      if( this.$route.path === "/") {
+      if (this.$route.path === "/") {
         return true;
       } else {
         return false;

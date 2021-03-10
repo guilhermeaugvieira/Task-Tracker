@@ -24,44 +24,44 @@ import AddTask from "../components/AddTask.vue";
     Task,
     AddTask
   },
-    data() {
+  data() {
     return {
-      tasks: Object as () => IReminder[],
+      tasks: Object as () => IReminder[]
     };
   },
   created() {
-    this.fetchTasks().then((data: IReminder[])=> {
-      this.tasks = data;
-    }).catch((erroApi: Error)=> {
-      console.log(erroApi)
-    });
+    this.fetchTasks()
+      .then((data: IReminder[]) => {
+        this.tasks = data;
+      })
+      .catch((erroApi: Error) => {
+        console.log(erroApi);
+      });
   },
   methods: {
     async deleteTask(id: number) {
       try {
-        const res = await fetch(`api/tasks/${id}`, {
-          method: 'DELETE',
+        await fetch(`api/tasks/${id}`, {
+          method: "DELETE",
           headers: {
-            'Content-type': 'application/json',
-          },
+            "Content-type": "application/json"
+          }
         });
 
         this.tasks = this.tasks.filter((task: IReminder) => task.id !== id);
-
       } catch (errorApi) {
-        console.log(errorApi);    
-      }  
+        console.log(errorApi);
+      }
     },
 
-    async toggleReminder(task : IReminder) {
+    async toggleReminder(task: IReminder) {
       task.reminder = !task.reminder;
 
-      try{
-
+      try {
         const res = await fetch(`api/tasks/${task.id}`, {
-          method: 'PUT',
+          method: "PUT",
           headers: {
-            'Content-type': 'application/json',
+            "Content-type": "application/json"
           },
           body: JSON.stringify(task)
         });
@@ -75,38 +75,35 @@ import AddTask from "../components/AddTask.vue";
         } catch (errorJson) {
           console.log(errorJson);
         }
-      }catch(errorApi){
+      } catch (errorApi) {
         console.log(errorApi);
       }
     },
 
     async addTask(task: IReminder) {
       try {
-        const res = await fetch('api/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(task),
-        
+        const res = await fetch("api/tasks", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(task)
         });
 
         try {
           const data = await res.json();
 
           this.tasks.push(data);
-
         } catch (errorJson) {
-          console.log(errorJson)
+          console.log(errorJson);
         }
-
       } catch (errorApi) {
         console.log(errorApi);
       }
     },
 
     async fetchTasks() {
-      const res = await fetch('api/tasks');
+      const res = await fetch("api/tasks");
       const data = await res.json();
 
       return data;
@@ -123,6 +120,4 @@ import AddTask from "../components/AddTask.vue";
 export default class Home extends Vue {}
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

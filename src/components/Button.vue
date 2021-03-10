@@ -16,11 +16,11 @@ import { Options, Vue } from "vue-class-component";
     color: {
       type: String,
       default: "#000"
-    },
+    }
   },
   methods: {
     onClick() {
-      this.$emit('btn-click');
+      this.$emit("btn-click");
     }
   }
 })

@@ -50,9 +50,9 @@ import { IReminder } from "./Task.vue";
         return;
       }
 
-      if(this.task.reminder === undefined) this.task.reminder = false;
+      if (this.task.reminder === undefined) this.task.reminder = false;
 
-      this.$emit('add-task', this.task);
+      this.$emit("add-task", this.task);
     }
   }
 })
