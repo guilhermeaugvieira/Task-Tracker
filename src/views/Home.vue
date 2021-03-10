@@ -54,23 +54,23 @@ import AddTask from "../components/AddTask.vue";
       }
     },
 
-    async toggleReminder(task: IReminder) {
-      task.reminder = !task.reminder;
+    async toggleReminder(taskSelected: IReminder) {
+      taskSelected.reminder = !taskSelected.reminder;
 
       try {
-        const res = await fetch(`api/tasks/${task.id}`, {
+        const res = await fetch(`api/tasks/${taskSelected.id}`, {
           method: "PUT",
           headers: {
             "Content-type": "application/json"
           },
-          body: JSON.stringify(task)
+          body: JSON.stringify(taskSelected)
         });
 
         try {
           const data = await res.json();
 
           this.tasks = this.tasks.map((task: IReminder) =>
-            task.id === task.id ? data : task
+            task.id === taskSelected.id ? data : task
           );
         } catch (errorJson) {
           console.log(errorJson);
@@ -108,13 +108,6 @@ import AddTask from "../components/AddTask.vue";
 
       return data;
     },
-
-    async fetchTask(id: number) {
-      const res = await fetch(`api/tasks/${id}`);
-      const data = await res.json();
-
-      return data;
-    }
   }
 })
 export default class Home extends Vue {}
