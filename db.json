@@ -3,7 +3,7 @@
     {
       "text": "Crash Course Vue",
       "day": "09/03/21 11:10PM",
-      "reminder": false,
+      "reminder": true,
       "id": 1
     },
     {
